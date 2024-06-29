@@ -1,0 +1,1 @@
+libs\shortcut.exe /f:"%userprofile%\AppData\Roaming\Microsoft\Windows\SendTo\MP4 CRUSHER.lnk" /a:c /t:"%~dp0\MP4 CRUSHER.bat" /i:"%WINDIR%\System32\shell32.dll",129
