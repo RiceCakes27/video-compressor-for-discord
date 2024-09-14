@@ -26,7 +26,7 @@ function Compress-Video {
     $audioBitrate = [float]$audioStream.bit_rate
 
     # Target total bitrate, in bps.
-    $targetTotalBitrate = ($targetSizeKB * 1024 * 8) / (1.073741824 * $duration)
+    $targetTotalBitrate = ($targetSizeKB * 1000 * 8) / (1.073741824 * $duration)
     # Target audio bitrate, in bps.
     if (10 * $audioBitrate -gt $targetTotalBitrate) {
         $audioBitrate = $targetTotalBitrate / 10
@@ -53,4 +53,4 @@ if ($args.Length -eq 0) {
 # Compress the inputted video to 25MB and save as CRUSHED plus whatever the input file was called
 $inputVideoPath = $args[0]
 $outputFileName =  [System.IO.Path]::GetDirectoryName($inputVideoPath) + "\CRUSHED " + [System.IO.Path]::GetFileName($inputVideoPath)
-Compress-Video -videoFullPath $inputVideoPath -outputFileName $outputFileName -targetSizeKB (25 * 1000)
+Compress-Video -videoFullPath $inputVideoPath -outputFileName $outputFileName -targetSizeKB (10 * 1000)
