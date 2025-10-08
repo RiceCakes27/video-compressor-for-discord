@@ -2,8 +2,8 @@
 @@set POWERSHELL_BAT_ARGS=%*
 @@if defined POWERSHELL_BAT_ARGS set POWERSHELL_BAT_ARGS=%POWERSHELL_BAT_ARGS:'=''%
 @@if defined POWERSHELL_BAT_ARGS set POWERSHELL_BAT_ARGS=%POWERSHELL_BAT_ARGS:"=\"%
-@@cd %~dp0
-@@PowerShell -Command Invoke-Expression $('$args=@(^&{$args} %POWERSHELL_BAT_ARGS%);'+[String]::Join([char]10,$((Get-Content '%~f0') -notmatch '^^@@'))) & goto :EOF
+@@set "SCRIPT_DIR=%~dp0"
+@@PowerShell -Command Invoke-Expression $('$scriptDir=''%SCRIPT_DIR%'';$args=@(^&{$args} %POWERSHELL_BAT_ARGS%);'+[String]::Join([char]10,$((Get-Content '%~f0') -notmatch '^^@@'))) & goto :EOF
 # Function to compress a video
 function Compress-Video {
     param (
@@ -17,7 +17,7 @@ function Compress-Video {
     $maxAudioBitrate = 256000
 
     # Use ffprobe to get the video information
-    $probe = & libs/ffprobe -v error -show_entries format=duration:stream=codec_type,bit_rate -of json $videoFullPath | ConvertFrom-Json
+    $probe = & $scriptDir/libs/ffprobe -v error -show_entries format=duration:stream=codec_type,bit_rate -of json $videoFullPath | ConvertFrom-Json
 
     # Video duration, in seconds.
     $duration = [float]$probe.format.duration
@@ -41,7 +41,7 @@ function Compress-Video {
     $videoBitrate = $targetTotalBitrate - $audioBitrate
 
     # Compress the video using ffmpeg
-    & libs/ffmpeg -i $videoFullPath -c:v libx264 -b:v $videoBitrate -c:a aac -b:a $audioBitrate -y $outputFileName
+    & $scriptDir/libs/ffmpeg -i $videoFullPath -c:v libx264 -b:v $videoBitrate -c:a aac -b:a $audioBitrate -y $outputFileName
 }
 
 # Check if the script is run with an argument
