@@ -50,7 +50,7 @@ if ($args.Length -eq 0) {
     exit
 }
 
-# Compress the inputted video to 25MB and save as CRUSHED plus whatever the input file was called
+# Compress the inputted video to 20MB and save as CRUSHED plus whatever the input file was called
 $inputVideoPath = $args[0]
 $outputFileName =  [System.IO.Path]::GetDirectoryName($inputVideoPath) + "\CRUSHED " + [System.IO.Path]::GetFileName($inputVideoPath)
-Compress-Video -videoFullPath $inputVideoPath -outputFileName $outputFileName -targetSizeKB (10 * 1000)
+Compress-Video -videoFullPath $inputVideoPath -outputFileName $outputFileName -targetSizeKB (20 * 1000)
